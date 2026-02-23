@@ -16,3 +16,4 @@ _Last updated: 2026-02-23_
 
 
 | 23 Feb | select basics  | 5 | - | - | [x] |
+| 23 Feb | select , where , distinct , as  | 4 | - | - | [x] |
