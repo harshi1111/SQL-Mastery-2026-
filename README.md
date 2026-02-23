@@ -5,9 +5,10 @@
 ### last done
 _Last updated: AUTO_ 
 
-| Date | Quest (Topic) | Problems |  Logic Learned | Done? |
-|:--- |:--- |:---:|:--- |:---:|
-| 01| SELECT Basics | 3 | "SELECT is the filter, * is everything." | ✅ |
+
+| Date | Topic | Probs | Logic Learned (Active Recall) | Resource | Done? |
+| :--- | :--- | :---: | :--- | :--- | :---: |
+
 
 
 ---
