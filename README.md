@@ -3,7 +3,7 @@
 **Target:** 12 LPA by 2027
 
 ### last done
-_Last updated: AUTO_ 
+_Last updated: 2026-02-23_ 
 
 
 | Date | Topic | Probs | Logic Learned (Active Recall) | Resource | Done? |
