@@ -3,16 +3,16 @@ on:
   workflow_dispatch:
     inputs:
       topic:
-        description: 'Topic (e.g., SELECT Basics)'
+        description: 'Topic'
         required: true
       problems:
-        description: 'Problems Solved (e.g., 5)'
+        description: 'Probs Solved'
         required: true
       logic:
-        description: 'Logic Learned (Active Recall)'
+        description: 'Logic Learned'
         required: true
       resource:
-        description: 'Resource (e.g., SQLBolt)'
+        description: 'Resource'
         required: true
 
 jobs:
@@ -20,19 +20,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Add Row and Update Date
+      - name: Calculate Streak and Add Row
         run: |
-          # 1. Get Dates
           DATE_DISPLAY=$(date +"%d %b")
           DATE_FULL=$(date +"%Y-%m-%d")
           
-          # 2. Build the exact Table Row
+          # 1. Get Current Streak from README
+          # This looks for the line: 🔥 Current Streak: 5
+          CURRENT_STREAK=$(grep -oP '🔥 Current Streak: \K\d+' README.md || echo "0")
+          LAST_DATE=$(grep -oP '_Last updated: \K\d{4}-\d{2}-\d{2}' README.md || echo "None")
+          YESTERDAY=$(date -d "yesterday" +"%Y-%m-%d")
+
+          # 2. Streak Logic
+          if [ "$LAST_DATE" == "$YESTERDAY" ]; then
+            NEW_STREAK=$((CURRENT_STREAK + 1))
+          elif [ "$LAST_DATE" == "$DATE_FULL" ]; then
+            NEW_STREAK=$CURRENT_STREAK # Already logged today
+          else
+            NEW_STREAK=1 # Streak broken
+          fi
+
+          # 3. Build the Row
           NEW_ROW="| $DATE_DISPLAY | ${{ github.event.inputs.topic }} | ${{ github.event.inputs.problems }} | ${{ github.event.inputs.logic }} | ${{ github.event.inputs.resource }} | [x] |"
           
-          # 3. Update the 'Last updated' line in README
+          # 4. Update README (Streak, Date, and Row)
+          sed -i "s/🔥 Current Streak: .*/🔥 Current Streak: $NEW_STREAK/" README.md
           sed -i "s/_Last updated:.*_/_Last updated: ${DATE_FULL}_/" README.md
-          
-          # 4. Add the row to the end of the file
           echo "$NEW_ROW" >> README.md
           
       - name: Commit changes
