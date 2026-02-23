@@ -15,3 +15,4 @@ _Last updated: AUTO_
 
 
 
+| 23 Feb | select basics  | 5 | - | - | [x] |
