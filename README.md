@@ -5,3 +5,4 @@ _Last updated: 2026-02-23_
 
 | Date | Topic | Probs | Logic Learned (Active Recall) | Resource | Done? |
 |------|-------|-------|--------------------------------|----------|-------|
+| 23 Feb | select | 5 | - | - | [x] |
