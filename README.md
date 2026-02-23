@@ -1,1 +1,1 @@
-# SQL-Mastery-2026-
+![GitHub Streak](https://github-readme-streak-stats.herokuapp.com)
