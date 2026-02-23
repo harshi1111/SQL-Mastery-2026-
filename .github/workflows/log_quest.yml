@@ -20,11 +20,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Add Row to Table
+      - name: Add Row and Update Date
         run: |
-          DATE=$(date +"%d %b")
-          NEW_ROW="| $DATE | ${{ github.event.inputs.topic }} | ${{ github.event.inputs.problems }} | ${{ github.event.inputs.logic }} | ${{ github.event.inputs.resource }} | [x] |"
+          # 1. Get Dates
+          DATE_DISPLAY=$(date +"%d %b")
+          DATE_FULL=$(date +"%Y-%m-%d")
+          
+          # 2. Build the exact Table Row
+          NEW_ROW="| $DATE_DISPLAY | ${{ github.event.inputs.topic }} | ${{ github.event.inputs.problems }} | ${{ github.event.inputs.logic }} | ${{ github.event.inputs.resource }} | [x] |"
+          
+          # 3. Update the 'Last updated' line in README
+          sed -i "s/_Last updated:.*_/_Last updated: ${DATE_FULL}_/" README.md
+          
+          # 4. Add the row to the end of the file
           echo "$NEW_ROW" >> README.md
+          
       - name: Commit changes
         run: |
           git config user.name "Quest-Bot"
