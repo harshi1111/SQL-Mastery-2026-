@@ -53,17 +53,22 @@ jobs:
             NEW_STREAK=1
           fi
 
-          # Update streak + date (EXACT match for your README)
-          sed -i "s/🔥 Current Streak: [0-9]*/🔥 Current Streak: $NEW_STREAK/" README.md
-          sed -i "s/_Last updated: [0-9-]*/_Last updated: $DATE_FULL/" README.md
+          # Update streak and date
+          sed -i -E "s/🔥 Current Streak: [0-9]+/🔥 Current Streak: $NEW_STREAK/" README.md
+          sed -i -E "s/_Last updated: [0-9-]+_/_Last updated: $DATE_FULL_/" README.md
 
           # Build new table row
           NEW_ROW="| $DATE_DISPLAY | ${{ github.event.inputs.topic }} | ${{ github.event.inputs.problems }} | ${{ github.event.inputs.logic }} | ${{ github.event.inputs.resource }} | ✅ |"
 
-          # Insert row after table separator
+          # Insert row after the table separator line
           awk -v row="$NEW_ROW" '
-          NR==6 {print; print row; next}
-          {print}
+          /^\|[-]+/ && !done {
+              print
+              print row
+              done=1
+              next
+          }
+          { print }
           ' README.md > temp.md
 
           mv temp.md README.md
