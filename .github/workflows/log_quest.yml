@@ -1,0 +1,34 @@
+name: Log SQL Quest
+on:
+  workflow_dispatch:
+    inputs:
+      topic:
+        description: 'Topic (e.g., SELECT Basics)'
+        required: true
+      problems:
+        description: 'Problems Solved (e.g., 5)'
+        required: true
+      logic:
+        description: 'Logic Learned (Active Recall)'
+        required: true
+      resource:
+        description: 'Resource (e.g., SQLBolt)'
+        required: true
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add Row to Table
+        run: |
+          DATE=$(date +"%d %b")
+          NEW_ROW="| $DATE | ${{ github.event.inputs.topic }} | ${{ github.event.inputs.problems }} | ${{ github.event.inputs.logic }} | ${{ github.event.inputs.resource }} | [x] |"
+          echo "$NEW_ROW" >> README.md
+      - name: Commit changes
+        run: |
+          git config user.name "Quest-Bot"
+          git config user.email "actions@github.com"
+          git add README.md
+          git commit -m "⚔️ Quest Logged: ${{ github.event.inputs.topic }}"
+          git push
